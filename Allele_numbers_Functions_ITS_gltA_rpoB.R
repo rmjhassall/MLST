@@ -22,11 +22,6 @@ library(seqRFLP)
 
 ####################################2. Set WD for each gene ############################################
 
-####gltA####
-gltA.allele.wd <- "H:\\PhD\\Sequencing\\Fasta\\Sequence Types\\gltA" ## WD for known allele database
-gltA.seqs.wd <- "H:\\PhD\\Sequencing\\Fasta\\All\\All" ## WD for alignment of sample sequences
-gltA.results.wd <- "H:\\PhD\\Data\\MLST\\Allele.Numbers\\gltA" ## WD for allele profile results
-
 ####rpoB####
 rpoB.allele.wd <- "H:\\PhD\\Sequencing\\Fasta\\Sequence Types\\rpoB"
 rpoB.seqs.wd <- "H:\\PhD\\Sequencing\\Fasta\\All\\All"
@@ -37,19 +32,8 @@ ITS.allele.wd <- "H:\\PhD\\Sequencing\\Fasta\\Sequence Types\\ITS"
 ITS.seqs.wd <- "H:\\PhD\\Sequencing\\Fasta\\All\\All"
 ITS.results.wd <- "H:\\PhD\\Data\\MLST\\Allele.Numbers\\ITS"
 
-
-
-
-
 ###################################3. Load allele database for each gene ###############################
 
-####gltA####
-setwd (gltA.allele.wd) 
-gltA_allele <- readDNAStringSet("Alleles.fas")
-gltA_allele <- gltA_allele[sort(names(gltA_allele))]
-gltA_allele.names <- names(gltA_allele)
-
-gltA_allele.DF <- data.frame(Allele.No = as.integer(gltA_allele.names),seq=as.data.frame(gltA_allele))
 
 ####rpoB####
 setwd (rpoB.allele.wd) 
@@ -69,15 +53,6 @@ ITS_allele.names <- names(ITS_allele)
 ITS_allele.DF <- data.frame(Allele.No = as.integer(ITS_allele.names),seq=as.data.frame(ITS_allele))
 
 ####################################4. Load alignments of sample sequences #############################
-
-###gltA####
-setwd (gltA.seqs.wd)
-
-gltA_seqs <- readDNAStringSet("gltA_all.fas")
-gltA_seqs <- gltA_seqs[sort(names(gltA_seqs))]
-gltA_seqs.names <- names(gltA_seqs)
-
-gltA_seqs.DF <- data.frame(name=gltA_seqs.names,seq=as.data.frame(gltA_seqs), Allele= rep(NA,length(gltA_seqs.names)))
 
 ####rpoB####
 
@@ -203,8 +178,6 @@ View(seqs.DF)
 
 #########################################___RUN FUNCTION___############################################
 
-####gltA####
-MLST("gltA",gltA.allele.wd,gltA_allele,gltA_seqs,gltA_allele.DF,gltA_seqs.DF,gltA.results.wd)
 ####rpoB####
 MLST("rpoB",rpoB.allele.wd,rpoB_allele,rpoB_seqs,rpoB_allele.DF,rpoB_seqs.DF,rpoB.results.wd)
 ####ITS####
@@ -212,10 +185,6 @@ MLST("ITS",ITS.allele.wd,ITS_allele,ITS_seqs,ITS_allele.DF,ITS_seqs.DF,ITS.resul
 
 
 ##########################################################Load Allele Profiles################################################## 
-
-setwd(gltA.results.wd)
-gltA.profiles <- read.csv("Allele.Profiles.csv",header=TRUE,row.names=1)
-#View(gltA.profiles)
 
 setwd(rpoB.results.wd)
 rpoB.profiles <- read.csv("Allele.Profiles.csv",header=TRUE,row.names=1)
@@ -225,9 +194,6 @@ setwd(ITS.results.wd)
 ITS.profiles <- read.csv("Allele.Profiles.csv",header=TRUE,row.names=1)
 #View(ITS.profiles)
 
-
-
-
 ###############################################################################################################################################
 #######################################################Assign sequence types###################################################################
 ###############################################################################################################################################
@@ -235,11 +201,10 @@ ITS.profiles <- read.csv("Allele.Profiles.csv",header=TRUE,row.names=1)
 setwd ("H:\\PhD\\Data\\MLST\\Allele.Numbers")
 
 #1. Sort names of profiles from each loci#################################################################################
-gltA.profiles <- gltA.profiles[sort(gltA.profiles$Sample),]
+
 rpoB.profiles <- rpoB.profiles[sort(rpoB.profiles$Sample),]
 ITS.profiles <- ITS.profiles[sort(ITS.profiles$Sample),]
 
-gltA.names <- c(as.character(gltA.profiles$Sample))
 rpoB.names <- c(as.character(rpoB.profiles$Sample))
 ITS.names <- c(as.character(ITS.profiles$Sample))
 
